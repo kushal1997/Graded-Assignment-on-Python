@@ -1,26 +1,17 @@
 
-
+# function to check strenght of password
 def check_password_strength(pwd):
+    # first check for minimum password length
     if len(pwd) >= 8:
         print("1) Minimum password length criteria achived")
     else:
         print("1) Password must be 8 chars long")
-        return False
+        return False # early EXIT if condition is not met
     
+    # checks for rest requirement
     check_uppercase_letters = check_smallcase_letters =  check_numbers = check_special_chars = False
 
- # ================== WITH BRUTE-FORCE TECHNIQUE =============================
-    # for ch in pwd:
-    #     if ch >= 'A' and ch <= 'Z':
-    #         check_uppercase_letters = True
-    #     elif ch >= 'a' and ch <= 'z':
-    #         check_smallcase_letters = True
-    #     elif ch >= '0' and ch <= '9':
-    #         check_numbers = True
-    #     else:
-    #         check_special_chars = True
-
-# ==================== WITH PREDIFINED FUNCTIONS =============================
+    # looping characters of password
     for char in pwd:
         if char.isupper():
             check_uppercase_letters = True
@@ -28,9 +19,10 @@ def check_password_strength(pwd):
             check_smallcase_letters = True
         elif char.isdigit():
             check_numbers = True
-        elif not char.isalnum():
+        elif not char.isalnum(): # its NOT as special characters are not alpha numeric
             check_special_chars = True
 
+    # print status of each requirements
     if check_uppercase_letters:
         print("2) Contains uppercase letter")
     else:
@@ -51,14 +43,16 @@ def check_password_strength(pwd):
     else:
         print("\n 5) Missing special character")
     
+    # return TRUE only if all checks are passed
     return check_uppercase_letters and check_smallcase_letters and check_numbers and check_special_chars
 
 
-
+# takes user input
 password = input("Enter your password : ")
 print("\n Checking password trength ... \n")
 
 
+# final answer based on function's return
 if check_password_strength(password):
     print("\n Your password is strong")
 else:
