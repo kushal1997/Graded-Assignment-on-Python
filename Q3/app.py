@@ -26,22 +26,27 @@ elif d:
 
 @app.route("/fetch/<filename>", methods = ['GET'])
 def fetch_details(filename):
-    if filename == 'all':
-        d = list(collection.find({},{'_id' : 0}))
-        return jsonify({
-            "message" : "data all files fetched successfully",
+    try:
+        if filename == 'all':
+            d = list(collection.find({},{'_id' : 0}))
+            return jsonify({
+                "message" : "data all files fetched successfully",
+                "data" : d
+            })
+        d = collection.find_one({"filename" : filename},{'_id' : 0})
+        if d:
+            return jsonify({
+            "message" : "Data successfully fetched",
             "data" : d
         })
-    d = collection.find_one({"filename" : filename},{'_id' : 0})
-    if d:
+        else:
+            return jsonify({
+                "message" : "this file data doesn't exit in database"
+            })
+    except Exception as e:
         return jsonify({
-        "message" : "Data successfully fetched",
-        "data" : d
-    })
-    else:
-        return jsonify({
-            "message" : "this file data doesn't exit in database"
-        })
+            "message": f"Internal server error: {e}"
+        }),500
 
 
 if __name__ == '__main__':
