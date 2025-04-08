@@ -1,33 +1,34 @@
+def config_reader(filename):
+    config_data = {}
+    section = ''
 
-config_data = {}
-section = ''
+    try:
+        with open(".config",'r') as file:
+            for line in file:
+                # print(line)
+                if not line:
+                    continue
+                if line.startswith("["):
+                    # print(line[1:-2])
+                    section = line[1:-2]
+                    config_data[section] = {}
+                elif '=' in line:
+                    if section:
+                        # print(line.split("="))
+                        key, value = line.split("=")
+                        # print("key,value",key,value)
+                        config_data[section][key]=value[:-1]
+                else:
+                    print("Wrong line format",line)
 
-try:
-    with open(".confi",'r') as file:
-        for line in file:
-            # print(line)
-            if not line:
-                continue
-            if line.startswith("["):
-                # print(line[1:-2])
-                section = line[1:-2]
-                config_data[section] = {}
-            elif '=' in line:
-                if section:
-                    # print(line.split("="))
-                    key, value = line.split("=")
-                    print("key,value",key,value)
-                    config_data[section][key]=value[:-1]
-            else:
-                print("Wrong line format",line)
+    except FileNotFoundError:
+        print("File not found")
 
-except FileNotFoundError:
-    print("File not found")
+    except IOError:
+        print("Can't read file")
 
-except IOError:
-    print("Can't read file")
+    except Exception as e:
+        print("error : ",e)
 
-except Exception as e:
-    print("error : ",e)
-
-print("config data",config_data)
+    # print("config data",config_data)
+    return config_data
