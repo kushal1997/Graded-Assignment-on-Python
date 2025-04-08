@@ -17,7 +17,7 @@ def config_reader(filename):
                         # print(line.split("="))
                         key, value = line.split("=")
                         # print("key,value",key,value)
-                        config_data[section][key]=value[1:-1]
+                        config_data[section][key[:-1]]=value[1:-1]
                 else:
                     print("Wrong line format",line)
 
