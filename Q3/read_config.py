@@ -3,7 +3,7 @@ def config_reader(filename):
     section = ''
 
     try:
-        with open(".config",'r') as file:
+        with open(filename,'r') as file:
             for line in file:
                 # print(line)
                 if not line:
