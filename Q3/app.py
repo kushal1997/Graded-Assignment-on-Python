@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from read_config import config_reader
-
+from format_data import format_config_data
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -34,10 +34,11 @@ def fetch_details(filename):
                 "data" : d
             })
         d = collection.find_one({"filename" : filename},{'_id' : 0})
+      
         if d:
             return jsonify({
             "message" : "Data successfully fetched",
-            "data" : d
+            "data" :   format_config_data(d)
         })
         else:
             return jsonify({
