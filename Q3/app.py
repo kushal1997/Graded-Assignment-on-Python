@@ -31,7 +31,10 @@ def fetch_details(filename):
             d = list(collection.find({},{'_id' : 0}))
             formated = []
             for data in d:
-                formated.append(format_config_data(data))
+                file_name = data.get("filename","")
+                formatted_file_data = [f'filename: {file_name}']
+                formatted_file_data += format_config_data(data)
+                formated.append(formatted_file_data)
 
             return jsonify({
                 "message" : "data all files fetched successfully",
