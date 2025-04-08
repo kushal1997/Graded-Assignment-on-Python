@@ -5,6 +5,7 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 
+# setup mongo db connection
 try:
     client = MongoClient("mongodb://localhost:27017/")
     db = client["config_db"]
@@ -12,21 +13,28 @@ try:
 except Exception as e:
     print(f"error: {e}")
 
+# read the config file
 filename = '.config'
 config = config_reader(filename)
-print("Config data : ", config)
+
+# store filename for better identification
 config["filename"] = filename 
 
+# add or update data in MongoDB
 d = collection.find_one({"filename" : filename})
 if not d:
     collection.insert_one(config)
 elif d:
-    collection.update_one({"filename" : filename},{'$set' : config})
+    collection.delete_one({"filename" : filename})
+    collection.insert_one(config)
 
 
+# define API route to fetch data of a single file or all files
 @app.route("/fetch/<filename>", methods = ['GET'])
 def fetch_details(filename):
     try:
+
+        # returns all file datas
         if filename == 'all':
             d = list(collection.find({},{'_id' : 0}))
             formated = []
@@ -40,6 +48,8 @@ def fetch_details(filename):
                 "message" : "data all files fetched successfully",
                 "data" : formated
             })
+        
+        # return specific data as per the file name
         d = collection.find_one({"filename" : filename},{'_id' : 0})
       
         if d:
@@ -57,5 +67,6 @@ def fetch_details(filename):
         }),500
 
 
+# to run flask server
 if __name__ == '__main__':
     app.run(debug = True)
