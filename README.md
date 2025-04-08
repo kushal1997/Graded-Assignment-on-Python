@@ -5,7 +5,8 @@ This project contains solutions for three Python-based assignment questions.
 Each question is organized into a separate folder (`Q1`, `Q2`, `Q3`) with relevant scripts.
 
 ## 🛠 Tech Stack  
-- Python  
+- Python
+- Flask (used in Q3)
 - MongoDB (used in Q3)
 
 ## 🚀 How to Run  
