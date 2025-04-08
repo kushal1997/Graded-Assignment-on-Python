@@ -20,9 +20,12 @@ try:
                     config_data[section][key]=value[:-1]
             else:
                 print("Wrong line format",line)
-                
+
 except FileNotFoundError:
     print("File not found")
+
+except IOError:
+    print("Can't read file")
 
 except Exception as e:
     print("error : ",e)
