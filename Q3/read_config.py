@@ -3,7 +3,7 @@ config_data = {}
 section = ''
 
 try:
-    with open(".config",'r') as file:
+    with open(".confi",'r') as file:
         for line in file:
             # print(line)
             if not line:
@@ -20,6 +20,10 @@ try:
                     config_data[section][key]=value[:-1]
             else:
                 print("Wrong line format",line)
+                
+except FileNotFoundError:
+    print("File not found")
+
 except Exception as e:
     print("error : ",e)
 
