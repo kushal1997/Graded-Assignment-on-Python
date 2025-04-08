@@ -29,9 +29,13 @@ def fetch_details(filename):
     try:
         if filename == 'all':
             d = list(collection.find({},{'_id' : 0}))
+            formated = []
+            for data in d:
+                formated.append(format_config_data(data))
+
             return jsonify({
                 "message" : "data all files fetched successfully",
-                "data" : d
+                "data" : formated
             })
         d = collection.find_one({"filename" : filename},{'_id' : 0})
       
